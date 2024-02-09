@@ -26,9 +26,9 @@ bin/kafka-server-start.sh config/server.properties
 
 
 # Create a topic named "demo_test"
-bin/kafka-topics.sh --create --topic demo_test --bootstrap-server <Your Public IP>:9092 --replication-factor 1 --partitions 1
+bin/kafka-topics.sh --create --topic stock_data_stream --bootstrap-server <Your Public IP>:9092 --replication-factor 1 --partitions 1
 
 
 # Start a Kafka producer and consumer in separate terminal windows
-bin/kafka-console-producer.sh --topic demo_test --bootstrap-server <Your Public IP>:9092
-bin/kafka-console-consumer.sh --topic demo_test --bootstrap-server <Your Public IP>:9092
+bin/kafka-console-producer.sh --topic stock_data_stream --bootstrap-server <Your Public IP>:9092
+bin/kafka-console-consumer.sh --topic stock_data_stream --bootstrap-server <Your Public IP>:9092
