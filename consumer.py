@@ -18,10 +18,10 @@ try:
     session.execute(
         "CREATE KEYSPACE IF NOT EXISTS stockmarket WITH replication = {'class':'SimpleStrategy', 'replication_factor':1};")
     session.set_keyspace("stockmarket")
-    session.execute('''CREATE TABLE IF NOT EXISTS stock_market_data (
+    session.execute('''CREATE TABLE IF NOT EXISTS stock_data (
 						                        id int PRIMARY KEY, 
                                                 "index" varchar,
-                                                date varchar,
+                                                sd_date varchar,
                                                 open float,
                                                 high float,
                                                 low float,
@@ -45,6 +45,6 @@ if consumer and session is not None:
                 new_data.update(message.value)
                 final_data = dumps(new_data)
                 session.execute(
-                    f"INSERT INTO stock_market_data JSON'{final_data}';")
+                    f"INSERT INTO stock_data JSON'{final_data}';")
             except Exception as e:
-                print("An error occurred while inserting data into Cassandra:", e)
+                print("An error occurred while inserting data into table:", str(e))
