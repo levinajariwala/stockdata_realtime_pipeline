@@ -5,25 +5,25 @@ import pandas as pd
 
 
 try:
-    producer = KafkaProducer(bootstrap_servers=['<Your Public IP>:9092'],
+    stock_producer = KafkaProducer(bootstrap_servers=['<Your Public IP>:<port_no>'],
                              value_serializer=lambda x: dumps(x).encode('utf-8'))
     df = pd.read_csv('latestStockData.csv.csv')
 except Exception as e:
     print("An error occurred while initializing the producer / reading the CSV file:", str(e))
-    producer = None
+    stock_producer = None
     df = None
 
-if producer and df is not None:
+if stock_producer and df is not None:
     while True:
         try:
             sample_data = df.sample(1).to_dict(orient='records')[0]
-            producer.send('stock_data_stream', value=sample_data)
+            stock_producer.send('stock_data_stream', value=sample_data)
             sleep(0.1)
         except Exception as e:
             print("An error occurred while sending data to Kafka:", e)
 
-if producer:
+if stock_producer:
     try:
-        producer.flush()
+        stock_producer.flush()
     except Exception as e:
         print("An error occurred while flushing the producer:", e)
