@@ -5,14 +5,17 @@ import pandas as pd
 
 
 try:
+    #creating kafka producer
     stock_producer = KafkaProducer(bootstrap_servers=['<Your Public IP>:<port_no>'],
                              value_serializer=lambda x: dumps(x).encode('utf-8'))
+    #reading data from csv
     df = pd.read_csv('latestStockData.csv.csv')
 except Exception as e:
     print("An error occurred while initializing the producer / reading the CSV file:", str(e))
     stock_producer = None
     df = None
 
+#checking producer and dataframe is not null then inserting data to kafka stream
 if stock_producer and df is not None:
     while True:
         try:
