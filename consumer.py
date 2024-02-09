@@ -4,12 +4,12 @@ from json import loads, dumps
 
 
 try:
-    consumer = KafkaConsumer('stock_data_stream',
-                             bootstrap_servers=['<Your Public IP>:9092'],
+    stock_consumer = KafkaConsumer('stock_data_stream',
+                             bootstrap_servers=['<Your Public IP>:<port_no>'],
                              value_deserializer=lambda x: loads(x.decode('utf-8')))
 except Exception as e:
     print("An error occurred while initializing the Kafka consumer:", str(e))
-    consumer = None
+    stock_consumer = None
 
 
 try:
@@ -35,9 +35,9 @@ except Exception as e:
     session = None
 
 
-if consumer and session is not None:
+if stock_consumer and session is not None:
     massage_id = 0
-    for message in consumer:
+    for message in stock_consumer:
         if (message.value):
             try:
                 massage_id += 1
